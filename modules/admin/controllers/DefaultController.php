@@ -2,8 +2,13 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\Authors;
+use SebastianBergmann\Comparator\Book;
+use Yii;
 use yii\web\Controller;
-
+use app\models\Books;
+use app\models\BooksSearch;
+use yii\data\ActiveDataProvider;
 /**
  * Default controller for the `admin` module
  */
@@ -15,6 +20,18 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+	    $searchModel = new BooksSearch();
+	    $dataProvider = new ActiveDataProvider([
+		    'query' => Books::find(),
+		    'pagination' => [
+			    'pageSize' => 20,
+		    ],
+	    ]);
+
+		$books = Books::find()->asArray()->all();
+	    return $this->render('index', [
+			'dataProvider' => $dataProvider ,
+		    'searchModel' => $searchModel,
+	    ]);
     }
 }

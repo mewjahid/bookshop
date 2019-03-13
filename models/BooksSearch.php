@@ -6,6 +6,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Books;
 
+
 /**
  * BooksSearch represents the model behind the search form of `app\models\Books`.
  */
@@ -18,7 +19,7 @@ class BooksSearch extends Books
     {
         return [
             [['id', 'author_id'], 'integer'],
-            [['title', 'genre'], 'safe'],
+            [['title', 'genre','author_id'], 'safe'],
         ];
     }
 
@@ -42,6 +43,8 @@ class BooksSearch extends Books
     {
         $query = Books::find();
 
+	    $query->joinWith(['author']);
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -63,7 +66,8 @@ class BooksSearch extends Books
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'genre', $this->genre]);
+            ->andFilterWhere(['like', 'genre', $this->genre])
+	        ->andFilterWhere(['like', 'author.full_name', $this->author_id]);
 
         return $dataProvider;
     }

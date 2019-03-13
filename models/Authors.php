@@ -32,7 +32,7 @@ class Authors extends \yii\db\ActiveRecord
         return [
             [['full_name', 'date_of_birth'], 'required'],
             [['date_of_birth', 'date_of_death'], 'safe'],
-            [['full_name'], 'string', 'max' => 255],
+            [['full_name',], 'string', 'max' => 255],
         ];
     }
 

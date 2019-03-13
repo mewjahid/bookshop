@@ -18,8 +18,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'id') ?>
 
     <?= $form->field($model, 'title') ?>
-
-    <?= $form->field($model, 'author_id') ?>
+	
 
     <?= $form->field($model, 'genre') ?>
 

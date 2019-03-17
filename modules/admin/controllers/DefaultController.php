@@ -20,18 +20,19 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-	    $searchModel = new BooksSearch();
-	    $dataProvider = new ActiveDataProvider([
-		    'query' => Books::find(),
-		    'pagination' => [
-			    'pageSize' => 20,
-		    ],
-	    ]);
 
-		$books = Books::find()->asArray()->all();
+
+		$books = Books::find()->with('author')->asArray()->all();
+
+	    $authors = Authors::find()->select(['authors.id', 'authors.full_name', 'books' => 'count(*)'])
+		    ->leftJoin('books', 'authors.id = books.author_id')
+		    ->groupBy('authors.id')->asArray()->all();
+
+	    
+
 	    return $this->render('index', [
-			'dataProvider' => $dataProvider ,
-		    'searchModel' => $searchModel,
+			'books' => $books, 
+			'authors' => $authors,
 	    ]);
     }
 }
